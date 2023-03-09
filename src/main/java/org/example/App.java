@@ -2,7 +2,7 @@ package org.example;
 
 import org.example.dao.UserDao;
 import org.example.dao.UserDaoHiber;
-import org.example.dao.UserDaoJdbc;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * Наша первое CRUD приложение с работой Базы данных
@@ -17,18 +17,18 @@ public class App
 {
     public static void main( String[] args )
     {
-        UserDao userDaoJdbc = new UserDaoHiber();
-        userDaoJdbc.createUsersTable();
-        userDaoJdbc.saveUser("Maxim", "Galkin", 23);
-        userDaoJdbc.saveUser("Anton", "Antonow", 43);
-        userDaoJdbc.saveUser("Ksenia", "Borodina", 34);
-        System.out.println(userDaoJdbc.getAllUsers());
-        userDaoJdbc.removeUserById(2);
-        System.out.println(userDaoJdbc.getAllUsers());
-        userDaoJdbc.cleanUsersTable();
-        System.out.println(userDaoJdbc.getAllUsers());
-        userDaoJdbc.cleanUsersTable();
-        userDaoJdbc.dropUsersTable();
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(SpringConfig.class);
 
+        UserDao userDao = context.getBean(UserDao.class);
+
+        userDao.saveUser("Maxim", "Ivanov", 23);
+        userDao.saveUser("Anton", "Melin", 28);
+        userDao.saveUser("Anna", "Krasnova", 18);
+        userDao.saveUser("Alexei", "Borianov", 31);
+
+        System.out.println(userDao.getAllUsers());
+        System.out.println();
+        System.out.println(userDao.getUserById(3));
     }
 }
