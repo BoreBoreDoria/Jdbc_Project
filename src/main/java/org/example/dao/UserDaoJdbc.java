@@ -1,4 +1,4 @@
-package org.example;
+package org.example.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.example.Config;
+import org.example.UserDto;
+import org.example.entity.User;
 
-public class UserDao {
+public class UserDaoJdbc implements UserDao {
 
     public void createUsersTable() {
         try (Connection connection = Config.getConnection(); Statement statement = connection.createStatement()) {
@@ -20,7 +23,7 @@ public class UserDao {
         }
     }
 
-    public void dropUserTable() {
+    public void dropUsersTable() {
         try (Connection connection = Config.getConnection(); Statement statement = connection.createStatement()) {
             statement.execute("DROP TABLE IF EXISTS users");
             System.out.println("Нам удалось успешно удалить таблицу пользователей");
@@ -44,11 +47,11 @@ public class UserDao {
         }
     }
 
-    public void deleteUser(int id) {
+    public void removeUserById(long id) {
         final String DELETE_USER = "DELETE FROM users WHERE id = ?";
         try (Connection connection = Config.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_USER)) {
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             statement.execute();
             System.out.println("Удалось удалить пользователя:" + id);
         } catch (SQLException e) {
@@ -56,16 +59,16 @@ public class UserDao {
         }
     }
 
-    public List<UserDto> getAllUsers() {
-        List<UserDto> users = new ArrayList<>();
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
         try (Connection connection = Config.getConnection(); Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
                 String lastName = resultSet.getString("lastName");
                 int age = resultSet.getInt("age");
-                UserDto user = new UserDto(id, name, lastName, age);
+                User user = new User(id, name, lastName, age);
                 users.add(user);
             }
             return users;
@@ -85,7 +88,7 @@ public class UserDao {
                 String name = resultSet.getString("name");
                 String lastName = resultSet.getString("lastName");
                 int age = resultSet.getInt("age");
-                 userDto = new UserDto(id, name, lastName, age);
+                userDto = new UserDto(id, name, lastName, age);
             }
             return userDto;
         } catch (SQLException e) {
@@ -93,7 +96,7 @@ public class UserDao {
         }
     }
 
-    public void cleanUserTable() {
+    public void cleanUsersTable() {
         final String DELETE_ALL_USERS = "DELETE FROM users";
         try (Connection connection = Config.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ALL_USERS)) {
