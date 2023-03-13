@@ -21,14 +21,12 @@ public class App
                 new AnnotationConfigApplicationContext(SpringConfig.class);
 
         UserDao userDao = context.getBean(UserDao.class);
-
-        userDao.saveUser("Maxim", "Ivanov", 23);
-        userDao.saveUser("Anton", "Melin", 28);
-        userDao.saveUser("Anna", "Krasnova", 18);
-        userDao.saveUser("Alexei", "Borianov", 31);
-
-        System.out.println(userDao.getAllUsers());
-        System.out.println();
-        System.out.println(userDao.getUserById(3));
+        userDao.saveCat("Cat");
+        userDao.saveCat("Cat2");
+        userDao.saveFish("Fish");
+        userDao.saveFish("Fish2");
+        System.out.println(userDao.getAllAnimals());
+        userDao.saveTest();
+        userDao.saveTest();
     }
 }

@@ -1,6 +1,11 @@
 package org.example;
 
 import java.util.Properties;
+import org.example.dto.Animals;
+import org.example.entity.Cat;
+import org.example.entity.Email;
+import org.example.entity.Fish;
+import org.example.entity.Test;
 import org.example.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,7 +49,7 @@ public class SpringConfig {
 
         factoryBean.setHibernateProperties(props);
 
-        factoryBean.setAnnotatedClasses(User.class);
+        factoryBean.setAnnotatedClasses(User.class, Email.class, Fish.class, Cat.class, Animals.class, Test.class);
         return factoryBean;
     }
 
