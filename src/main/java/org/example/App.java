@@ -19,14 +19,5 @@ public class App
     {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(SpringConfig.class);
-
-        UserDao userDao = context.getBean(UserDao.class);
-        userDao.saveCat("Cat");
-        userDao.saveCat("Cat2");
-        userDao.saveFish("Fish");
-        userDao.saveFish("Fish2");
-        System.out.println(userDao.getAllAnimals());
-        userDao.saveTest();
-        userDao.saveTest();
     }
 }
